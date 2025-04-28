@@ -9,6 +9,7 @@ urlpatterns = [
     path('cart_stat', views.get_cart_stat, name='cart_stat'),
     path('cart', views.get_cart, name='get_cart'),
     path('quantity_update/', views.update_quantity, name='update_quantity'),
+    path('delete_item/', views.delete_item, name='delete_item'),
 ]
 
 # http://127.0.0.1:8000/products

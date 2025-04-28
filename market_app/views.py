@@ -1,6 +1,7 @@
 from urllib import request
 
 from django.shortcuts import render
+from rest_framework import status
 
 from rest_framework.decorators import api_view
 
@@ -107,7 +108,17 @@ def update_quantity(request):
         cart_item = CartItem.objects.get(id=cartitem_id)
         cart_item.quantity = quantity
         cart_item.save()
-        serializer = CartSerializer(cart_item)
+        serializer = CartItemsSerializer(cart_item)
         return Response({"data":serializer.data, "message": "Cart item updated successful"}, 200)
+    except Exception as e:
+        return Response({"error": str(e)}, 500)
+
+@api_view(['PATCH'])
+def delete_item(request):
+    try:
+        cartitem_id = request.data.get('item_id')
+        cart_item = CartItem.objects.get(id=cartitem_id)
+        cart_item.delete()
+        return Response({"message": "Item deleted successfully"}, status = status.HTTP_204_NO_CONTENT)
     except Exception as e:
         return Response({"error": str(e)}, 500)
